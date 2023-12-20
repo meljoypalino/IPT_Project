@@ -1,0 +1,110 @@
+﻿@using Hospital_Management_System.Models
+@model LoginViewModel
+@{ ViewBag.Title = "Log in"; }
+<style> 
+    .choose {
+        display: grid;
+        grid-template-columns: 80px 80px;
+        column-gap: 80px;
+        margin-left: 40%;
+
+        
+    }
+    .choose p {
+        cursor: pointer;
+        padding: 10px;
+        /*font-weight: bold;*/
+        display: inline-block;
+        
+    }
+
+        .choose p.active {
+            color: green;
+            border-bottom: solid;
+            width: 100%;
+           /* text-decoration: underline;
+            text-decoration-style: solid;*/
+           
+        }
+</style>
+
+<section class="section-form" id="contact">
+    <div class="row">
+        <h2>@ViewBag.Title.</h2>
+    </div>
+    <div class="choose">
+        <p id="patientTab" onclick="changeTab('patient')">Patient</p>
+        <p id="adminTab" onclick="changeTab('admin')">Admin</p>
+    </div>
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+@Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col span-1-of-4">
+
+                    </div>
+                    <div class="col span-2-of-4">
+                        <div class="plan-box">
+
+                            <div>
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div>
+                                    <label for="name">User Name<span style="color: red; font-weight: bold">*</span></label>
+                                    @Html.TextBoxFor(m => m.Email, new { @placeholder = "UserName", id = "name" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    <label for="password">Password<span style="color: red; font-weight: bold">*</span></label>
+                                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", id = "password" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                                <br />
+                                <p>
+                                    @Html.ActionLink("Forgot your password?", "ForgotPassword", new { @disabled = "disabled" })
+                                </p>
+                                <br />
+                                <p>
+                                    @Html.ActionLink("Register as a new user", "Register")
+                                </p>
+                            </div>
+
+                            <div style="text-align: center !important">
+                                <input type="submit" value="Log in" class="btn btn-ghost">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col span-1-of-4 ">
+
+                    </div>
+                </div>
+                                <div style="text-align: center" class="row">
+                                    @Html.ActionLink("Back to Home", "Index", "Home")
+                                </div>}
+
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+    <script>
+        function changeTab(tab) {
+        var patientTab = document.getElementById('patientTab');
+        var adminTab = document.getElementById('adminTab');
+
+        if (tab === 'patient') {
+            patientTab.classList.add('active');
+        adminTab.classList.remove('active');
+        } else if (tab === 'admin') {
+            adminTab.classList.add('active');
+        patientTab.classList.remove('active');
+        }
+    }
+</script>
+
